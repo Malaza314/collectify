@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "458909383120",
+    "project_id": "loan-shark-dev",
+    "storage_bucket": "loan-shark-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458909383120:android:8e3cd3c9b765874261e1d5",
+        "android_client_info": {
+          "package_name": "com.collectify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7POghhFEx8QhddJiyAwq2HO2MC9KPqRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458909383120:android:edbb72387ed6af5b61e1d5",
+        "android_client_info": {
+          "package_name": "com.example.collectify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7POghhFEx8QhddJiyAwq2HO2MC9KPqRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
