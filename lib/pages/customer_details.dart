@@ -16,9 +16,9 @@ class CustomerDetailsPage extends StatefulWidget {
 
 class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
   // Text editing controllers for adding a new loan
-  final TextEditingController initialLoanController = TextEditingController();
-  final TextEditingController interestRateController = TextEditingController();
-  final TextEditingController totalToPayController = TextEditingController();
+  // final TextEditingController initialLoanController = TextEditingController();
+  // final TextEditingController interestRateController = TextEditingController();
+  // final TextEditingController totalToPayController = TextEditingController();
   final TextEditingController amountToPayController = TextEditingController();
   final TextEditingController scheduledDateController = TextEditingController();
 
@@ -26,34 +26,50 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
   DateTime lastLoanUpdate = DateTime.now();
 
   // Function to update totalToPay based on initialLoan and interestRate.
-  void _updateTotalToPay() {
-    final loanText = initialLoanController.text.trim();
-    final rateText = interestRateController.text.trim();
+  // void _updateTotalToPay() {
+  //   final loanText = initialLoanController.text.trim();
+  //   final rateText = interestRateController.text.trim();
 
-    if (loanText.isEmpty || rateText.isEmpty) {
-      totalToPayController.text = '';
-      return;
-    }
-    final loan = double.tryParse(loanText);
-    final rate = double.tryParse(rateText);
-    if (loan == null || rate == null) {
-      totalToPayController.text = '';
-      return;
-    }
-    final total = loan + (loan * rate / 100);
-    totalToPayController.text = total.toStringAsFixed(2);
-  }
+  //   if (loanText.isEmpty || rateText.isEmpty) {
+  //     totalToPayController.text = '';
+  //     return;
+  //   }
+  //   final loan = double.tryParse(loanText);
+  //   final rate = double.tryParse(rateText);
+  //   if (loan == null || rate == null) {
+  //     totalToPayController.text = '';
+  //     return;
+  //   }
+  //   final total = loan + (loan * rate / 100);
+  //   totalToPayController.text = total.toStringAsFixed(2);
+  // }
 
-  // Function to pick a scheduled date using a date picker.
+  // Function to pick a scheduled date and time using a date and time picker.
   Future<void> _pickScheduledDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    // Pick the date first.
+    final DateTime? date = await showDatePicker(
       context: context,
       initialDate: DateTime.now().add(const Duration(days: 1)),
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    if (picked != null) {
-      scheduledDateController.text = picked.toLocal().toString().split(' ')[0];
+    if (date != null) {
+      // Pick the time.
+      final TimeOfDay? time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (time != null) {
+        // Combine date and time.
+        final DateTime scheduledDateTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          time.hour,
+          time.minute,
+        );
+        scheduledDateController.text = scheduledDateTime.toLocal().toString();
+      }
     }
   }
 
@@ -85,9 +101,9 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
   Future<void> _createLoanTransaction() async {
     final String customerId = widget.customerData['id'] ?? '';
     final String ucn = widget.customerData['unique_customer_number'] ?? '';
-    final String initialLoan = initialLoanController.text.trim();
-    final String interestRate = interestRateController.text.trim();
-    final String totalToPay = totalToPayController.text.trim();
+    // final String initialLoan = initialLoanController.text.trim();
+    // final String interestRate = interestRateController.text.trim();
+    // final String totalToPay = totalToPayController.text.trim();
     final String amountToPay = amountToPayController.text.trim();
     final String scheduledDate = scheduledDateController.text.trim();
 
@@ -97,9 +113,9 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
       await callable.call(<String, dynamic>{
         'customer_id': customerId,
         'unique_customer_number': ucn,
-        'initial_loan': initialLoan,
-        'interest_rate': interestRate,
-        'total_to_pay': totalToPay,
+        // 'initial_loan': initialLoan,
+        // 'interest_rate': interestRate,
+        // 'total_to_pay': totalToPay,
         'amount_to_pay': amountToPay,
         'scheduled_date': scheduledDate,
       });
@@ -122,30 +138,30 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(
-                  controller: initialLoanController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Initial Loan Amount',
-                  ),
-                ),
-                TextField(
-                  controller: interestRateController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Interest Rate (%)',
-                  ),
-                  onChanged: (_) {
-                    _updateTotalToPay();
-                  },
-                ),
-                TextField(
-                  controller: totalToPayController,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Total to Pay (R)',
-                  ),
-                ),
+                // TextField(
+                //   controller: initialLoanController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: const InputDecoration(
+                //     labelText: 'Initial Loan Amount',
+                //   ),
+                // ),
+                // TextField(
+                //   controller: interestRateController,
+                //   keyboardType: TextInputType.number,
+                //   decoration: const InputDecoration(
+                //     labelText: 'Interest Rate (%)',
+                //   ),
+                //   onChanged: (_) {
+                //     _updateTotalToPay();
+                //   },
+                // ),
+                // TextField(
+                //   controller: totalToPayController,
+                //   readOnly: true,
+                //   decoration: const InputDecoration(
+                //     labelText: 'Total to Pay (R)',
+                //   ),
+                // ),
                 TextField(
                   controller: amountToPayController,
                   keyboardType: TextInputType.number,
@@ -169,9 +185,9 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
             TextButton(
               onPressed: () {
                 // Clear controllers and close dialog on cancel.
-                initialLoanController.clear();
-                interestRateController.clear();
-                totalToPayController.clear();
+                // initialLoanController.clear();
+                // interestRateController.clear();
+                // totalToPayController.clear();
                 amountToPayController.clear();
                 scheduledDateController.clear();
                 Navigator.pop(context);
@@ -180,16 +196,17 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
             ),
             TextButton(
               onPressed: () async {
+                appController.setIsLoading = true;
                 try {
-                  appController.setIsLoading = true;
-
                   await _createLoanTransaction();
+                  
                   // Clear controllers.
-                  initialLoanController.clear();
-                  interestRateController.clear();
-                  totalToPayController.clear();
+                  // initialLoanController.clear();
+                  // interestRateController.clear();
+                  // totalToPayController.clear();
                   amountToPayController.clear();
                   scheduledDateController.clear();
+                  appController.setIsLoading = false;
                   Navigator.pop(context);
                   // Refresh the transaction list.
                   setState(() {
@@ -198,7 +215,7 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Loan added successfully!")),
                   );
-                  appController.setIsLoading = false;
+                 
                 } catch (error) {
                   ScaffoldMessenger.of(
                     context,
@@ -219,9 +236,9 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
   @override
   void dispose() {
     // Dispose controllers to prevent memory leaks.
-    initialLoanController.dispose();
-    interestRateController.dispose();
-    totalToPayController.dispose();
+    // initialLoanController.dispose();
+    // interestRateController.dispose();
+    // totalToPayController.dispose();
     amountToPayController.dispose();
     scheduledDateController.dispose();
     super.dispose();
@@ -276,14 +293,14 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
                       final transaction =
                           transactions[index] as Map<String, dynamic>;
                       final amount =
-                          transaction['total_to_pay'] ?? 'No amount provided';
+                          transaction['amount_to_pay'] ?? 'No amount provided';
                       final date =
                           transaction['scheduled_date'] ?? 'No date provided';
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         elevation: 2,
                         child: ListTile(
-                          title: Text("Amount: \R${amount}"),
+                          title: Text("Amount: R$amount"),
                           subtitle: Text("Date: $date"),
                         ),
                       );
