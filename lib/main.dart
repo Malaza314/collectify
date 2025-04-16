@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         '/about': (context) => const AboutPage(),
         '/HomePage': (context) => const HomePage(),
         '/customers': (context) => const Customers(),
-        '/CustomerDetails': (context) => const CustomerDetails(),
+        // '/CustomerDetails': (context) => const CustomerDetailsPage(),
       },
       initialRoute: '/',
     );

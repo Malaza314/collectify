@@ -4,6 +4,7 @@ import 'package:collectify/Widgets/loading_overlay.dart';
 import 'package:collectify/Widgets/themedata.dart';
 import 'package:collectify/Widgets/utils.dart';
 import 'package:collectify/init_packages.dart';
+import 'package:collectify/pages/customer_details.dart';
 // import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -29,10 +30,10 @@ class _CustomersState extends State<Customers> {
     // final TextEditingController initialLoanController = TextEditingController();
     // final TextEditingController interestRateController = TextEditingController();
     // final TextEditingController totalToPayController = TextEditingController();
-    final TextEditingController cardNumberController = TextEditingController();
-    final TextEditingController cvvController = TextEditingController();
-    final TextEditingController cardHolderController = TextEditingController();
-    final TextEditingController expiryDateController = TextEditingController();
+    // final TextEditingController cardNumberController = TextEditingController();
+    // final TextEditingController cvvController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    // final TextEditingController expiryDateController = TextEditingController();
     // final TextEditingController amountToPayController = TextEditingController();
     // final TextEditingController scheduledDateController = TextEditingController();
         
@@ -73,18 +74,18 @@ class _CustomersState extends State<Customers> {
 //   totalToPayController.text = total.toStringAsFixed(2);
 // }
 
-Future<void> _pickScheduledDate(BuildContext context) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now().add(const Duration(days: 1)),
-    firstDate: DateTime.now(),
-    lastDate: DateTime.now().add(const Duration(days: 365)),
-  );
+// Future<void> _pickScheduledDate(BuildContext context) async {
+  // final DateTime? picked = await showDatePicker(
+  //   context: context,
+  //   initialDate: DateTime.now().add(const Duration(days: 1)),
+  //   firstDate: DateTime.now(),
+  //   lastDate: DateTime.now().add(const Duration(days: 365)),
+  // );
 
   // if (picked != null) {
   //   scheduledDateController.text = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
   // }
-}
+// }
 
   @override
   Widget build(BuildContext context) {
@@ -165,27 +166,27 @@ Future<void> _pickScheduledDate(BuildContext context) async {
                             //   readOnly: true,
                             //   decoration: const InputDecoration(labelText: 'Total to Pay (R)'),
                             // ),
-                            const SizedBox(height: 16),
+                            // const SizedBox(height: 16),
 
                             // Card Details
+                            // TextField(
+                            //   controller: cardNumberController,
+                            //   keyboardType: TextInputType.number,
+                            //   decoration: const InputDecoration(labelText: 'Card Number'),
+                            // ),
+                            // TextField(
+                            //   controller: cvvController,
+                            //   keyboardType: TextInputType.number,
+                            //   decoration: const InputDecoration(labelText: 'CVV'),
+                            // ),
                             TextField(
-                              controller: cardNumberController,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(labelText: 'Card Number'),
+                              controller: emailController,
+                              decoration: const InputDecoration(labelText: 'email'),
                             ),
-                            TextField(
-                              controller: cvvController,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(labelText: 'CVV'),
-                            ),
-                            TextField(
-                              controller: cardHolderController,
-                              decoration: const InputDecoration(labelText: 'Cardholder Name'),
-                            ),
-                            TextField(
-                              controller: expiryDateController,
-                              decoration: const InputDecoration(labelText: 'Expiry Date (MM/YY)'),
-                            ),
+                            // TextField(
+                            //   controller: expiryDateController,
+                            //   decoration: const InputDecoration(labelText: 'Expiry Date (MM/YY)'),
+                            // ),
                             // TextField(
                             //   controller: amountToPayController,
                             //   keyboardType: TextInputType.number,
@@ -201,7 +202,7 @@ Future<void> _pickScheduledDate(BuildContext context) async {
                             //   ),
                             // ),
 
-                            const SizedBox(height: 16),
+                            // const SizedBox(height: 16),
                             
                             
                           ],
@@ -221,10 +222,10 @@ Future<void> _pickScheduledDate(BuildContext context) async {
                             // final String initialLoan = initialLoanController.text.trim();
                             // final String interestRate = interestRateController.text.trim();
                             // final String totalToPay = totalToPayController.text.trim();
-                            final String cardNumber = cardNumberController.text.trim();
-                            final String cvv = cvvController.text.trim();
-                            final String cardHolder = cardHolderController.text.trim();
-                            final String expiryDate = expiryDateController.text.trim();
+                            // final String cardNumber = cardNumberController.text.trim();
+                            // final String cvv = cvvController.text.trim();
+                            final String email = emailController.text.trim();
+                            // final String expiryDate = expiryDateController.text.trim();
                             // final String amountToPay = amountToPayController.text.trim();
                             // final String scheduledDate = scheduledDateController.text.trim();
 
@@ -240,10 +241,10 @@ Future<void> _pickScheduledDate(BuildContext context) async {
                               // 'initialLoan': initialLoan,
                               // 'interestRate': interestRate,
                               // 'totalToPay': totalToPay,
-                              'cardNumber': cardNumber,
-                              'cvv': cvv,
-                              'cardHolder': cardHolder,
-                              'expiryDate': expiryDate,
+                              // 'cardNumber': cardNumber,
+                              // 'cvv': cvv,
+                              'email': email,
+                              // 'expiryDate': expiryDate,
                               // 'amountToPay': amountToPay,
                               // 'scheduledDate': scheduledDate,
                             });
@@ -257,10 +258,10 @@ Future<void> _pickScheduledDate(BuildContext context) async {
                             // initialLoanController.clear();
                             // interestRateController.clear();
                             // totalToPayController.clear();
-                            cardNumberController.clear();
-                            cvvController.clear();
-                            cardHolderController.clear();
-                            expiryDateController.clear();
+                            // cardNumberController.clear();
+                            // cvvController.clear();
+                            emailController.clear();
+                            // expiryDateController.clear();
                             // amountToPayController.clear();
                             // scheduledDateController.clear();
                             // Show success message
@@ -364,56 +365,41 @@ Future<void> _pickScheduledDate(BuildContext context) async {
                             subtitle:
                                 email.isNotEmpty ? Text(email) : null,
                             onTap: () async {
-                              // Navigate to CustomerDetails page with customer data
-                             
+  try {
+    // Show a loading indicator
+    appController.setIsLoading = true;
+    
+    // Extract the customer's id (or ucn) from the customer map.
+    final String customerId = customer['id'] ?? '';
+    
+    // Call the cloud function 'fetchCustomerInfo'
+    final callable = FirebaseFunctions.instance.httpsCallable('fetchCustomerInfo');
+    final results = await callable.call(<String, dynamic>{
+      'id': customerId,
+    });
+    
+    // Retrieve the returned customer data
+    final Map<String, dynamic> customerData = results.data as Map<String, dynamic>;
+    
+    // Hide the loading indicator
+    appController.setIsLoading = false;
+    
+    // Navigate to the CustomerDetailsPage, passing the data
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CustomerDetailsPage(customerData: customerData),
+      ),
+    );
+  } catch (error) {
+    // Hide loading indicator and show an error message on failure
+    appController.setIsLoading = false;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error: $error")),
+    );
+  }
+},
 
-                                  try {
-                                    appController.setIsLoading = true;
-                                    // Call cloud function "fetchCustomerInfo" passing the customer's id
-                                    final callable = FirebaseFunctions.instance.httpsCallable('fetchCustomerInfo');
-                                    final results = await callable.call(<String, dynamic>{
-                                      'id': customer['id'] ?? '',
-                                    });
-                                    appController.setIsLoading = false;
-                                    
-                                  //   // Show AwesomeDialog with a redesigned UI for customer info
-                                  //   showAwesomeDialog(
-                                  //     context: context, 
-                                  //     dialogType: DialogType.info,
-                                  //     animType: AnimType.scale,
-                                  //     title: 'Customer Information',
-                                  //     body: SingleChildScrollView(
-                                  //       child: Padding(
-                                  //         padding: const EdgeInsets.all(16.0),
-                                  //         child: Column(
-                                  //           children: [
-                                  //             _buildInfoRow("Name", results.data['name'] ?? ''),
-                                  //             _buildInfoRow("Surname", results.data['surname'] ?? ''),
-                                  //             _buildInfoRow("Phone", results.data['phone'] ?? ''),
-                                  //             _buildInfoRow("ID", results.data['id'] ?? ''),
-                                  //             _buildInfoRow("Initial Loan", results.data['initialLoan'] ?? ''),
-                                  //             _buildInfoRow("Interest Rate", results.data['interest_rate'] ?? ''),
-                                  //             _buildInfoRow("Total to Pay", results.data['total_toPay'] ?? ''),
-                                  //             _buildInfoRow("Card Number", results.data['cardNumber'] ?? ''),
-                                  //             _buildInfoRow("CVV", results.data['cvv'] ?? ''),
-                                  //             _buildInfoRow("Cardholder Name", results.data['cardHolder'] ?? ''),
-                                  //             _buildInfoRow("Expiry Date", results.data['expiryDate'] ?? ''),
-                                  //             _buildInfoRow("Amount to Pay", results.data['amountToPay'] ?? ''),
-                                  //             _buildInfoRow("Scheduled Date", results.data['scheduledDate'] ?? ''),
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //     btnOkOnPress: () {},
-                                  //     btnOkColor: Colors.green,
-                                  //   );
-                                  } catch (error) {
-                                    appController.setIsLoading = false;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text("Error: $error")),
-                                    );
-                                  }
-                                },
                           ),
                         );
                       },
