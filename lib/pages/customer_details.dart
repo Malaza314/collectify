@@ -15,38 +15,14 @@ class CustomerDetailsPage extends StatefulWidget {
 }
 
 class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
-  // Text editing controllers for adding a new loan
-  // final TextEditingController initialLoanController = TextEditingController();
-  // final TextEditingController interestRateController = TextEditingController();
-  // final TextEditingController totalToPayController = TextEditingController();
   final TextEditingController amountToPayController = TextEditingController();
   final TextEditingController scheduledDateController = TextEditingController();
 
-  // Used to force refresh of FutureBuilder when a new loan is added.
   DateTime lastLoanUpdate = DateTime.now();
 
-  // Function to update totalToPay based on initialLoan and interestRate.
-  // void _updateTotalToPay() {
-  //   final loanText = initialLoanController.text.trim();
-  //   final rateText = interestRateController.text.trim();
+  String _loanSearchQuery = '';
 
-  //   if (loanText.isEmpty || rateText.isEmpty) {
-  //     totalToPayController.text = '';
-  //     return;
-  //   }
-  //   final loan = double.tryParse(loanText);
-  //   final rate = double.tryParse(rateText);
-  //   if (loan == null || rate == null) {
-  //     totalToPayController.text = '';
-  //     return;
-  //   }
-  //   final total = loan + (loan * rate / 100);
-  //   totalToPayController.text = total.toStringAsFixed(2);
-  // }
-
-  // Function to pick a scheduled date and time using a date and time picker.
   Future<void> _pickScheduledDate(BuildContext context) async {
-    // Pick the date first.
     final DateTime? date = await showDatePicker(
       context: context,
       initialDate: DateTime.now().add(const Duration(days: 1)),
@@ -54,13 +30,11 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (date != null) {
-      // Pick the time.
       final TimeOfDay? time = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
       );
       if (time != null) {
-        // Combine date and time.
         final DateTime scheduledDateTime = DateTime(
           date.year,
           date.month,
@@ -73,7 +47,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
     }
   }
 
-  // Calls a cloud function to fetch loan transactions for this customer.
   Future<List<dynamic>> _fetchLoanTransactions() async {
     final String ucn = widget.customerData['unique_customer_number'] ?? '';
     print("Fetching transactions for UCN: $ucn");
@@ -97,13 +70,9 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
     }
   }
 
-  // Calls a cloud function to create a new loan transaction.
   Future<void> _createLoanTransaction() async {
     final String customerId = widget.customerData['id'] ?? '';
     final String ucn = widget.customerData['unique_customer_number'] ?? '';
-    // final String initialLoan = initialLoanController.text.trim();
-    // final String interestRate = interestRateController.text.trim();
-    // final String totalToPay = totalToPayController.text.trim();
     final String amountToPay = amountToPayController.text.trim();
     final String scheduledDate = scheduledDateController.text.trim();
 
@@ -113,9 +82,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
       await callable.call(<String, dynamic>{
         'customer_id': customerId,
         'unique_customer_number': ucn,
-        // 'initial_loan': initialLoan,
-        // 'interest_rate': interestRate,
-        // 'total_to_pay': totalToPay,
         'amount_to_pay': amountToPay,
         'scheduled_date': scheduledDate,
       });
@@ -127,7 +93,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
     }
   }
 
-  // Shows a dialog to add a new loan.
   void _showAddLoanDialog() {
     showDialog(
       context: context,
@@ -138,30 +103,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // TextField(
-                //   controller: initialLoanController,
-                //   keyboardType: TextInputType.number,
-                //   decoration: const InputDecoration(
-                //     labelText: 'Initial Loan Amount',
-                //   ),
-                // ),
-                // TextField(
-                //   controller: interestRateController,
-                //   keyboardType: TextInputType.number,
-                //   decoration: const InputDecoration(
-                //     labelText: 'Interest Rate (%)',
-                //   ),
-                //   onChanged: (_) {
-                //     _updateTotalToPay();
-                //   },
-                // ),
-                // TextField(
-                //   controller: totalToPayController,
-                //   readOnly: true,
-                //   decoration: const InputDecoration(
-                //     labelText: 'Total to Pay (R)',
-                //   ),
-                // ),
                 TextField(
                   controller: amountToPayController,
                   keyboardType: TextInputType.number,
@@ -184,10 +125,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
           actions: [
             TextButton(
               onPressed: () {
-                // Clear controllers and close dialog on cancel.
-                // initialLoanController.clear();
-                // interestRateController.clear();
-                // totalToPayController.clear();
                 amountToPayController.clear();
                 scheduledDateController.clear();
                 Navigator.pop(context);
@@ -199,23 +136,16 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
                 appController.setIsLoading = true;
                 try {
                   await _createLoanTransaction();
-                  
-                  // Clear controllers.
-                  // initialLoanController.clear();
-                  // interestRateController.clear();
-                  // totalToPayController.clear();
                   amountToPayController.clear();
                   scheduledDateController.clear();
                   appController.setIsLoading = false;
                   Navigator.pop(context);
-                  // Refresh the transaction list.
                   setState(() {
                     lastLoanUpdate = DateTime.now();
                   });
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Loan added successfully!")),
                   );
-                 
                 } catch (error) {
                   ScaffoldMessenger.of(
                     context,
@@ -235,10 +165,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
 
   @override
   void dispose() {
-    // Dispose controllers to prevent memory leaks.
-    // initialLoanController.dispose();
-    // interestRateController.dispose();
-    // totalToPayController.dispose();
     amountToPayController.dispose();
     scheduledDateController.dispose();
     super.dispose();
@@ -258,7 +184,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        // Use a Column with Expanded to display both customer details and the list of loan transactions.
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -270,11 +195,24 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
               "Loan Transactions",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+            const SizedBox(height: 8),
+            TextField(
+              decoration: const InputDecoration(
+                hintText: 'Search transactions...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _loanSearchQuery = value;
+                });
+              },
+            ),
             const SizedBox(height: 16),
-            // FutureBuilder to fetch transactions via cloud function.
             Expanded(
               child: FutureBuilder<List<dynamic>>(
-                // Adding the lastLoanUpdate variable in the future call to trigger a refresh.
                 future: _fetchLoanTransactions(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
@@ -284,24 +222,44 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
                     return const Center(child: CircularProgressIndicator());
                   }
                   final transactions = snapshot.data!;
-                  if (transactions.isEmpty) {
-                    return const Center(child: Text("No upcoming payments"));
+                  final filteredTransactions = _loanSearchQuery.isEmpty
+                      ? transactions
+                      : transactions.where((transaction) {
+                          final status = (transaction['status'] ?? '').toString().toLowerCase();
+                          final amount = (transaction['amount_to_pay'] ?? '').toString().toLowerCase();
+                          final date = (transaction['scheduled_date'] ?? '').toString().toLowerCase();
+                          final query = _loanSearchQuery.toLowerCase();
+                          return status.contains(query) || amount.contains(query) || date.contains(query);
+                        }).toList();
+
+                  if (filteredTransactions.isEmpty) {
+                    return const Center(child: Text("No matching transactions found"));
                   }
+
                   return ListView.builder(
-                    itemCount: transactions.length,
+                    itemCount: filteredTransactions.length,
                     itemBuilder: (context, index) {
-                      final transaction =
-                          transactions[index] as Map<String, dynamic>;
-                      final amount =
-                          transaction['amount_to_pay'] ?? 'No amount provided';
-                      final date =
-                          transaction['scheduled_date'] ?? 'No date provided';
+                      final transaction = filteredTransactions[index] as Map<String, dynamic>;
+                      final amount = transaction['amount_to_pay'] ?? 'No amount provided';
+                      final date = transaction['scheduled_date'] ?? 'No date provided';
+                      final status = (transaction['status'] ?? 'Pending').toString().toLowerCase();
+
+                      Widget? trailingIcon;
+                      if (status == 'paid') {
+                        trailingIcon = const Icon(Icons.check_circle, color: Colors.green);
+                      } else if (status == 'failed') {
+                        trailingIcon = const Icon(Icons.cancel, color: Colors.red);
+                      } else {
+                        trailingIcon = null;
+                      }
+
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         elevation: 2,
                         child: ListTile(
-                          title: Text("Amount: R$amount"),
-                          subtitle: Text("Date: $date"),
+                          title: Text("Amount: R${amount.toString()}"),
+                          subtitle: Text("Date: $date\nStatus: ${transaction['status'] ?? 'Pending'}"),
+                          trailing: trailingIcon,
                         ),
                       );
                     },
@@ -312,7 +270,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
           ],
         ),
       ),
-      // Floating Action Button to add a new loan
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddLoanDialog,
         backgroundColor: Colors.blue,
@@ -322,7 +279,6 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
     );
   }
 
-  // Helper method for displaying a label-value pair.
   Widget _buildInfoRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),

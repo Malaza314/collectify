@@ -159,7 +159,7 @@ class _SignupPageState extends State<SignupPage> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Text(
-                  "Please note that documents submitted are legit and recently certified as they will be used in verifying",
+                  "Please ensure that documents submitted are legit and recently certified as they will be used in the verifying process.",
                   textAlign: TextAlign.center,
                   style: contentTextStyle(
                     fontSize: h3,
