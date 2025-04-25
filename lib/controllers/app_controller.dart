@@ -50,6 +50,14 @@ class AppController extends GetxController{
     // Updates the all customers
     _allCustomers.value = value;
   }
+
+  // - - - - - - users - - - - - - - 
+  final _allUsers = RxList<dynamic>([]);
+  List<dynamic> get allUsers => _allUsers.value;
+  void setAllUsers({required List<dynamic> value}) {
+    // Updates the all users
+    _allUsers.value = value;
+  }
   
 
 

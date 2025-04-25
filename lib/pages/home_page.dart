@@ -50,14 +50,19 @@ class _HomePageState extends State<HomePage> {
                   route: '/customers',
                 ),
               ),
-              // hoverCard(
-              //   title: "Loans",
-              //   onTap: () => Navigator.pushNamed(context, '/loans'),
-              // ),
-              // hoverCard(
-              //   title: "Payments",
-              //   onTap: () => Navigator.pushNamed(context, '/payments'),
-              // ),
+              hoverCard(
+                title: "Add Credit card",
+                onTap: () => Navigator.pushNamed(context, '/add_credit_card'),
+              ),
+
+              hoverCard(
+                title: "Admin Portal",
+                onTap: () =>
+                //  _handleCardTapadmin(context: context
+                //   , route: '/admin_portal'),
+                Navigator.pushNamed(context, '/admin_portal'),
+              ),
+
               // hoverCard(
               //   title: "Reports",
               //   onTap: () => Navigator.pushNamed(context, '/reports'),
@@ -172,3 +177,25 @@ Future<void> _handleCardTap({
     appController.setIsLoading = false;
   }
 }
+
+// Future<void> _handleCardTapadmin({
+//   required BuildContext context,
+//   required String route,
+// }) async {
+//   try {
+//     appController.setIsLoading = true;
+//     // Call the cloud function "fetchUserData"
+//     final callable = functions.httpsCallable('fetchUserData');
+//     final results = await callable.call({});
+//     debugPrint("fetchUserData response: ${results.data}");
+//     // Pass the fetched data as arguments to the customers page
+//     appController.setAllUsers(value: results.data["users"]);
+//     Navigator.pushNamed(context, route);
+//   } catch (error) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text("Error: $error")),
+//     );
+//   } finally {
+//     appController.setIsLoading = false;
+//   }
+// }

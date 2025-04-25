@@ -1,6 +1,8 @@
 import 'package:collectify/Widgets/themedata.dart';
 import 'package:collectify/Widgets/utils.dart';
 import 'package:collectify/controllers/auth_controller.dart';
+import 'package:collectify/pages/add_credit_card_page.dart';
+import 'package:collectify/pages/admin_portal.dart';
 import 'package:collectify/pages/customer_details.dart';
 import 'package:collectify/pages/customers.dart';
 import 'package:collectify/pages/home_page.dart';
@@ -49,6 +51,8 @@ class MyApp extends StatelessWidget {
         '/about': (context) => const AboutPage(),
         '/HomePage': (context) => const HomePage(),
         '/customers': (context) => const Customers(),
+        '/add_credit_card': (context) => const AddCreditCardPage(),
+        '/admin_portal': (context) => const AdminPortalPage(),
         // '/CustomerDetails': (context) => const CustomerDetailsPage(),
       },
       initialRoute: '/',

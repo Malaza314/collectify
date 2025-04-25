@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -109,10 +110,10 @@ class _SignupPageState extends State<SignupPage> {
     if (result != null && result.files.isNotEmpty) {
       final file = result.files.first;
       setState(() {
-      _idFileName = file.name;
-    });
-      // Convert the file to base64 string
-      appController.setUploadIdBase64(value: file.bytes.toString());
+        _idFileName = file.name;
+      });
+      // Convert the file to a proper base64 string.
+      appController.setUploadIdBase64(value: base64Encode(file.bytes!));
     
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Certified Copy of ID (PDF) selected")),
@@ -129,13 +130,13 @@ class _SignupPageState extends State<SignupPage> {
     if (result != null && result.files.isNotEmpty) {
       final file = result.files.first;
       setState(() {
-      _LendingLicenseFileName = file.name;
-    });
-      // Convert the file to base64 string
-      appController.setUploadLendingLicenseBase64(value: file.bytes.toString());
+        _LendingLicenseFileName = file.name;
+      });
+      // Convert the file to a proper base64 string.
+      appController.setUploadLendingLicenseBase64(value: base64Encode(file.bytes!));
       
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Certified Copy of LendingLicense (PDF) selected")),
+        const SnackBar(content: Text("Certified Copy of Lending License (PDF) selected")),
       );
     }
   }
