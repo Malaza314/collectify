@@ -4,7 +4,6 @@ on:
   workflow_dispatch:   # 👈 Allows manual trigger from GitHub Actions UI
   schedule:
     - cron: '0 0 * * *' # Every day at midnight
-
 env:
   PROJECT_ID: loan-shark-dev
   BUCKET: gs://backup-colectify-test-01
@@ -13,10 +12,32 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
         with:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
-      - run: gcloud info
-      - run: gcloud config set project $PROJECT_ID
-      - run: gcloud firestore export $BUCKET
+
+      - name: Show gcloud info
+        run: gcloud info
+
+      - name: Set GCP project
+        run: gcloud config set project $PROJECT_ID
+
+      - name: Export Firestore
+        run: gcloud firestore export $BUCKET
+# env:
+#   PROJECT_ID: loan-shark-dev
+#   BUCKET: gs://backup-colectify-test-01
+
+# jobs:
+#   backup:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+#         with:
+#           service_account_key: ${{ secrets.GCP_SA_KEY }}
+#           export_default_credentials: true
+#       - run: gcloud info
+#       - run: gcloud config set project $PROJECT_ID
+#       - run: gcloud firestore export $BUCKET
