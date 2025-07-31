@@ -1,0 +1,2 @@
+C:/Users/ui/Documents/Flutters/collectify/android/app/.cxx/Debug/91a165b3/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/ui/Documents/Flutters/collectify/android/app/.cxx/Debug/91a165b3/x86_64/CMakeFiles/rebuild_cache.dir
