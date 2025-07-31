@@ -153,24 +153,29 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
             ),
             TextButton(
               onPressed: () async {
+                // if (Navigator.canPop(context)) {
+                //   Navigator.pop(context);
+                // }
                 appController.setIsLoading = true;
                 try {
                   await _createLoanTransaction();
                   amountToPayController.clear();
                   scheduledDateController.clear();
-                  appController.setIsLoading = false;
+                  
                   Navigator.pop(context);
                   setState(() {
                     lastLoanUpdate = DateTime.now();
                   });
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Loan added successfully!")),
-                  );
-                } catch (error) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text("Error: $error")));
-                }
+                      const SnackBar(content: Text("Loan added successfully!")),
+                    );
+                  } catch (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Error: $error")),
+                    );
+                  } finally {
+                    appController.setIsLoading = false;
+                  }
               },
               child: const Text(
                 "Add Loan",
@@ -214,7 +219,7 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
               _buildInfoRow("Phone", phone),
               Row(
                 children: [
-                  Expanded(child: _buildInfoRow("Email", email)),
+                  Expanded(child: _buildInfoRow("Email",email)),
                   IconButton(
                     icon: const Icon(Icons.email, color: Colors.blue),
                     tooltip: "Add Credit Card  Using Email",
@@ -224,6 +229,34 @@ class _CustomerDetailsPageState extends State<CustomerDetailsPage> {
                   ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Credit Card:",
+                        style: contentTextStyle(
+                          fontSize: 16,
+                          fontColor: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    widget.customerData['creditCard'] == true
+                        ? const Icon(Icons.check_circle, color: Colors.green)
+                        : const Icon(Icons.cancel, color: Colors.red),
+                  ],
+                ),
+              ),
+              if (widget.customerData['creditCard'] != true)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    "Warning: Bank card not added. Please add a valid bank card.",
+                    style: TextStyle(fontSize: 14, color: Colors.red[700]),
+                  ),
+                ),
               const SizedBox(height: 24),
               const Text(
                 "Loan Transactions",

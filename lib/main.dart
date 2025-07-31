@@ -22,7 +22,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Sign out before unload on web
+  // Sign out before unload on web.
   html.window.onBeforeUnload.listen((_) {
     FirebaseAuth.instance.signOut();
   });
@@ -34,7 +34,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -53,7 +52,6 @@ class MyApp extends StatelessWidget {
         '/customers': (context) => const Customers(),
         '/add_credit_card': (context) => const AddCreditCardPage(),
         '/admin_portal': (context) => const AdminPortalPage(),
-        // '/CustomerDetails': (context) => const CustomerDetailsPage(),
       },
       initialRoute: '/',
     );
@@ -65,21 +63,24 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Updated scaffold with a modern app bar and streamlined drawer.
     return Scaffold(
+      // Updated drawer with a modern design.
       drawer: Drawer(
+        backgroundColor: Colors.white.withOpacity(0.95),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Color(0xFF3949AB),
+                gradient: LinearGradient(
+                  colors: [Color(0xFF3949AB), Color(0xFF1A237E)],
+                ),
               ),
               child: Center(
                 child: Text(
                   'Collectify Menu',
                   style: contentTextStyle(
-                    fontSize: 24,
+                    fontSize: 26,
                     fontColor: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -113,108 +114,122 @@ class WelcomePage extends StatelessWidget {
           ],
         ),
       ),
+      
       appBar: AppBar(
         title: const Text('Collectify'),
+        titleTextStyle: contentTextStyle(
+          fontSize: 24,
+          fontColor: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
         centerTitle: true,
         backgroundColor: const Color(0xFF3949AB),
         elevation: 0,
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFF1A237E),
-              Color(0xFF3949AB),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+      // Use a full-screen Stack with a background image and dark overlay.
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'background.jpg', // Ensure this image exists and is declared in pubspec.yaml.
+            fit: BoxFit.cover,
           ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          Container(
+            color: Colors.black.withOpacity(0.5),
+          ),
+          Center(
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Updated welcome message with modern typography
-                  Text(
-                    "Welcome to Collectify",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: Card(
+                color: Colors.white.withOpacity(0.9),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                elevation: 10,
+                margin: const EdgeInsets.symmetric(vertical: 48),
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Modern welcome title.
+                      Text(
+                        "Welcome to Collectify",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                              color: const Color(0xFF3949AB),
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      const SizedBox(height: 20),
+                      // Subtitle with a brief description.
+                      Text(
+                        "Revolutionize your loan collections with effortless automation.\n\n"
+                        "Secure · Fast · Reliable",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Colors.black87,
+                              height: 1.5,
+                            ),
+                      ),
+                      const SizedBox(height: 40),
+                      // Modern styled Login button.
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(250, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF3949AB),
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          elevation: 5,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
+                        child: const Text('Login'),
+                      ),
+                      const SizedBox(height: 16),
+                      // Modern styled Sign Up button.
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(250, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF3949AB),
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          elevation: 5,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/signup');
+                        },
+                        child: const Text('Sign Up'),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    "Where loan collections become effortless.\n\n"
-                    "Automated Debits · Timely Returns",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.white70,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 48),
-                  // Modern elevated button
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(250, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color(0xFF3949AB),
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      elevation: 5,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    child: const Text('Login'),
-                  ),
-                  const SizedBox(height: 16),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(250, 50),
-                      side: BorderSide(
-                        color: Colors.white.withOpacity(0.8),
-                        width: 2,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      textStyle: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      foregroundColor: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/signup');
-                    },
-                    child: const Text('Sign Up'),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  // Helper method for drawer items
+  // Helper method for drawer items.
   ListTile _buildDrawerItem(BuildContext context,
-      {required IconData icon,
-      required String title,
-      required String routeName}) {
+      {required IconData icon, required String title, required String routeName}) {
     return ListTile(
-      leading: Icon(icon, color: const Color(0xFF1A237E)),
+      leading: Icon(icon, color: const Color(0xFF3949AB)),
       title: Text(title, style: const TextStyle(fontSize: 18)),
       onTap: () {
         Navigator.pop(context);
