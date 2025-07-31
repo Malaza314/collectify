@@ -1,9 +1,10 @@
 name: Backup Firestore
 
 on:
-  workflow_dispatch:   # 👈 Allows manual trigger from GitHub Actions UI
+  workflow_dispatch:   # Manual trigger
   schedule:
-    - cron: '0 0 * * *' # Every day at midnight
+    - cron: '30 12 * * *' # Every day at 12:30 PM
+
 env:
   PROJECT_ID: loan-shark-dev
   BUCKET: gs://backup-colectify-test-01
@@ -12,20 +13,28 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up gcloud
-        uses: google-github-actions/setup-gcloud@v2
+      # 1️⃣ Authenticate with GCP
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+      # 2️⃣ Install gcloud CLI
+      - name: Set up gcloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      # 3️⃣ Verify gcloud installation
       - name: Show gcloud info
         run: gcloud info
 
+      # 4️⃣ Set project
       - name: Set GCP project
         run: gcloud config set project $PROJECT_ID
 
+      # 5️⃣ Export Firestore
       - name: Export Firestore
         run: gcloud firestore export $BUCKET
+
 # env:
 #   PROJECT_ID: loan-shark-dev
 #   BUCKET: gs://backup-colectify-test-01
