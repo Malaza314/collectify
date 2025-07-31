@@ -1,9 +1,9 @@
-name: Backuo Firestore
+name: Backup Firestore
 
 on:
+  workflow_dispatch:   # 👈 Allows manual trigger from GitHub Actions UI
   schedule:
-  - cron: '30 12 * * *' # Every day at 12:30 PM
-    # - cron: '0 0 * * *' # Every day at midnight
+    - cron: '0 0 * * *' # Every day at midnight
 
 env:
   PROJECT_ID: loan-shark-dev
